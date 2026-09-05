@@ -1,52 +1,101 @@
-# EchoScribe
+# EchoScribe — Speech to Text & Speech to Speech
 
-Phone-first, privacy-minded alternative to **Wispr Flow**.
+A privacy-first, on-device speech-to-text and speech-to-speech PWA. Works on phone and PC, installable on mobile, supports built-in engines, custom APIs, and full speech-to-speech translation with audio replay.
 
-Speak naturally. EchoScribe turns your voice into clean text you can copy, share, or save. It works in the browser on **Android phones**, **iPhones** (Safari / Chrome), and **laptops**.
+## Features
 
-## Why this exists
+### Two Modes
+- **Speech to Text (STT)** — Dictate and get text. Copy, download, edit, replay.
+- **Speech to Speech (S2S)** — Speak in one language, get translation spoken back in another.
 
-Wispr Flow is a paid dictation app that types into other apps. A web app cannot become a system keyboard on every phone without going through the App Store / Play Store. EchoScribe is the closest open-source version you can use today:
+### Three STT Engines
+1. **Built-in (Web Speech API)** — Real-time, low latency, uses the browser's native speech recognition
+2. **Whisper WASM** — OpenAI's Whisper model running fully in-browser via WebAssembly. Offline after first download. Three model sizes: Tiny (40MB), Base (80MB), Small (250MB)
+3. **Custom API** — Bring your own API endpoint. Supports:
+   - OpenAI Whisper API format (multipart/form-data)
+   - Azure Speech Services (JSON + header)
+   - Custom REST API (POST audio blob)
 
-- Works on **phone and laptop** from one codebase
-- Installs like an app (Add to Home Screen / PWA)
-- Cleans filler words (`um`, `uh`, `you know`)
-- Voice commands: `new paragraph`, `period`, `comma`, `scratch that`
-- Custom spellings for names
-- Saved notes on the device
-- Optional **on-device Whisper** so audio stays on the phone after the first model download
+### Speech to Speech
+- Translate spoken text to 19+ languages
+- Translation providers: LibreTranslate, Google Translate (free), or your own custom API
+- Automatic text-to-speech playback of translation
+- Voice selection, speed, and pitch controls
 
-## How to use on a phone
+### Audio Recording & Replay
+- All engines that use MediaRecorder (Whisper, Custom API) save the audio
+- Replay the recording anytime with the replay button
+- Download transcript with original + translation
 
-1. Open the hosted site in **Chrome (Android)** or **Safari / Chrome (iPhone)**
-2. Allow the microphone
-3. Tap the purple mic and talk
-4. Browser menu → **Add to Home Screen** so it feels like a real app
-5. Copy or Share the text into WhatsApp, Gmail, Notes, etc.
+### Text to Speech
+- Built-in TTS via Web Speech Synthesis API
+- Custom TTS API support (send text, get audio back)
+- Voice, speed, and pitch controls
 
-Laptop: open the same site in Chrome or Edge. Press **Space** to start/stop when you are not typing.
+### Other
+- **100% privacy-first** — No backend. Settings and API keys stored in localStorage only
+- **PWA** — Installable on phone, works offline (app shell cached)
+- **20+ input languages** including all major Indian languages
+- **Responsive** — Works on phone, tablet, desktop
+- **Settings persistence** — All settings saved locally
 
-## Two engines
+## Quick Start
 
-| Engine | Best for | Privacy |
-|---|---|---|
-| **Live** (Web Speech API) | Instant dictation | Uses the browser speech engine. Chrome may talk to Google. |
-| **Whisper** (WASM) | Offline / extra privacy | Model runs in the browser. First download needs internet. Prefer **Tiny** on phones. |
+### Use directly
+1. Open `index.html` in Chrome/Edge (for Web Speech) or any modern browser (for Whisper/Custom API)
+2. Allow microphone access
+3. Select your engine and language
+4. Tap the mic and start speaking
 
-No build step. No backend. No accounts.
+### Install as PWA
+1. Open in Chrome (Android) or Safari (iOS)
+2. Browser menu → "Add to Home Screen" / "Install App"
+3. Launch from home screen — works fullscreen like a native app
 
+### Host it
 ```bash
 npx serve .
 # or
 python3 -m http.server 8000
 ```
 
-## Limits (honest)
+## Custom API Configuration
 
-- A PWA cannot inject text into every other app the way a native keyboard can.
-- Live mode quality depends on the browser.
-- Whisper Tiny is usable on phones; Small needs a strong device.
-- Firefox has no Web Speech API — use Whisper there.
+Open Settings (gear icon) to configure:
+
+### STT API
+- **API Endpoint URL** — Your speech-to-text API endpoint
+- **API Key** — Stored locally only, sent only to your API
+- **Format** — OpenAI / Azure / Custom
+- **Model** — e.g., `whisper-1` (for OpenAI)
+
+### Translation API
+- **Provider** — Auto, LibreTranslate, Google (free), or Custom
+- **Custom endpoint** — Your translation API URL
+- **API Key** — For authenticated translation services
+
+### TTS Engine
+- **Built-in** — Uses Web Speech Synthesis (no setup needed)
+- **Custom** — Your TTS API endpoint (send text, receive audio)
+
+## Browser Support
+
+| Feature | Chrome/Edge | Safari | Firefox |
+|---------|------------|--------|----------|
+| Built-in STT | Yes | Yes (iOS 14.5+) | No |
+| Whisper WASM | Yes | Yes | Yes |
+| Custom API | Yes | Yes | Yes |
+| S2S Translation | Yes | Yes | Yes |
+| TTS (Built-in) | Yes | Yes | Yes |
+| PWA install | Yes (Android) | Yes (iOS) | Limited |
+| Offline | Yes | Yes | Yes |
+
+## Privacy
+
+- **No backend.** The app is a static site.
+- **No analytics.** Zero tracking.
+- **API keys stored locally** in localStorage, never sent anywhere except your configured API.
+- **Audio stays local** in Built-in and Whisper modes. In Custom API mode, audio is sent only to your configured endpoint.
 
 ## License
 
