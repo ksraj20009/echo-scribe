@@ -1,22 +1,17 @@
 {
-  "name": "EchoScribe — On-Device Speech to Text",
+  "name": "EchoScribe",
   "short_name": "EchoScribe",
-  "description": "Privacy-first, on-device speech-to-text. Works on phone and PC. No cloud, no tracking.",
-  "start_url": "./",
+  "description": "Speak naturally. Get clean text on phone and laptop. Privacy-first Wispr Flow alternative.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#0F0E17",
-  "theme_color": "#6C2BD9",
-  "categories": ["productivity", "utilities"],
+  "orientation": "portrait-primary",
+  "background_color": "#0b0614",
+  "theme_color": "#5B21B6",
   "lang": "en",
-  "dir": "ltr",
   "icons": [
-    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
-    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
-  ],
-  "shortcuts": [
-    {"name": "Start Recording", "url": "./?action=record", "description": "Start speech-to-text"}
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }
