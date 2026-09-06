@@ -15,29 +15,25 @@ services:
       - ./server/data:/data
     depends_on: []
 
-  # Optional services (uncomment if you add them locally):
-  # postgres:
-  #   image: postgres:15
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_DB: echoscribe
-  #   ports:
-  #     - '5432:5432'
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
+  whisper-server:
+    image: ghcr.io/ggerganov/faster-whisper:latest
+    container_name: echoscribe_whisper
+    # This image is an example; you may need to build or use a different whisper server image.
+    environment:
+      - PORT=9000
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./models/whisper:/models
 
-  # whisper-server:
-  #   image: ghcr.io/user/faster-whisper-server:latest
-  #   environment:
-  #     - PORT=9000
-  #   ports:
-  #     - '9000:9000'
-
-  # llm-server (example using llama.cpp REST wrapper):
-  #   image: ghcr.io/user/llama-server:latest
-  #   ports:
-  #     - '8080:8080'
+  llm-server:
+    image: ghcr.io/ggerganov/llama.cpp-web:latest
+    container_name: echoscribe_llm
+    # Example llama.cpp-based REST wrapper. Replace with your preferred LLM server image.
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./models/llm:/models
 
 volumes:
   pgdata:
