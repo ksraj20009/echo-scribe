@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  api:
+    build: ./server
+    container_name: echoscribe_api
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - MASTER_KEY=${MASTER_KEY}
+      - MODEL_URL=${MODEL_URL}
+      - WHISPER_URL=${WHISPER_URL}
+      - DATA_DIR=/data
+    volumes:
+      - ./server/data:/data
+    depends_on: []
+
+  whisper-server:
+    image: ghcr.io/ggerganov/faster-whisper:latest
+    container_name: echoscribe_whisper
+    # This image is an example; you may need to build or use a different whisper server image.
+    environment:
+      - PORT=9000
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./models/whisper:/models
+
+  llm-server:
+    image: ghcr.io/ggerganov/llama.cpp-web:latest
+    container_name: echoscribe_llm
+    # Example llama.cpp-based REST wrapper. Replace with your preferred LLM server image.
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./models/llm:/models
+
+volumes:
+  pgdata:
