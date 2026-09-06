@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  api:
+    build: ./server
+    container_name: echoscribe_api
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - MASTER_KEY=${MASTER_KEY}
+      - MODEL_URL=${MODEL_URL}
+      - WHISPER_URL=${WHISPER_URL}
+      - DATA_DIR=/data
+    volumes:
+      - ./server/data:/data
+    depends_on: []
+
+  # Optional services (uncomment if you add them locally):
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: echoscribe
+  #   ports:
+  #     - '5432:5432'
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+  # whisper-server:
+  #   image: ghcr.io/user/faster-whisper-server:latest
+  #   environment:
+  #     - PORT=9000
+  #   ports:
+  #     - '9000:9000'
+
+  # llm-server (example using llama.cpp REST wrapper):
+  #   image: ghcr.io/user/llama-server:latest
+  #   ports:
+  #     - '8080:8080'
+
+volumes:
+  pgdata:
